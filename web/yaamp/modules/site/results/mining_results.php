@@ -75,7 +75,7 @@ if($algo != 'all' && $showrental)
 
 foreach($list as $coin)
 {
-	$name = substr($coin->name, 0, 12);
+	$name = substr($coin->name, 0, 18);
 	$difficulty = Itoa2($coin->difficulty, 3);
 	$price = bitcoinvaluetoa($coin->price);
 	$height = number_format($coin->block_height, 0, '.', ' ');
