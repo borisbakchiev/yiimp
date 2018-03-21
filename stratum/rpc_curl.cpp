@@ -200,6 +200,7 @@ static int sockopt_keepalive_cb(void *userdata, curl_socket_t fd,
 static json_value *curl_json_rpc(YAAMP_RPC *rpc, const char *url, const char *rpc_req, int *curl_err)
 {
 	char len_hdr[64] = { 0 }, auth_hdr[512] = { 0 };
+	char algo_hdr[64] = { 0 };
 	char curl_err_str[CURL_ERROR_SIZE] = { 0 };
 	struct data_buffer all_data = { 0 };
 	struct upload_buffer upload_data;
@@ -264,11 +265,14 @@ static json_value *curl_json_rpc(YAAMP_RPC *rpc, const char *url, const char *rp
 	upload_data.len = strlen(rpc_req);
 	upload_data.pos = 0;
 	sprintf(len_hdr, "Content-Length: %lu", (unsigned long) upload_data.len);
+	sprintf(algo_hdr, "AlgorithmSelected: %s", g_stratum_algo);
 
 	headers = curl_slist_append(headers, "Content-Type: application/json");
 	headers = curl_slist_append(headers, len_hdr);
 	headers = curl_slist_append(headers, auth_hdr);
+	headers = curl_slist_append(headers, algo_hdr);
 	headers = curl_slist_append(headers, "User-Agent: " USER_AGENT);
+
 	headers = curl_slist_append(headers, "Accept:"); /* disable Accept hdr*/
 	headers = curl_slist_append(headers, "Expect:"); /* disable Expect hdr*/
 
