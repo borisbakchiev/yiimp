@@ -147,6 +147,8 @@ static YAAMP_JOB_TEMPLATE *decred_create_worktemplate(YAAMP_COIND *coind)
 	char rpc_error[1024] = { 0 };
 	#define GETWORK_RETRY_MAX 3
 	int retry_cnt = GETWORK_RETRY_MAX;
+	rpc_connect(&coind->rpc);
+	usleep(500*YAAMP_MS);
 retry:
 	json_value *gw = rpc_call(&coind->rpc, "getwork", "[]");
 	if(!gw || json_is_null(gw)) {
