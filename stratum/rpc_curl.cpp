@@ -265,7 +265,7 @@ static json_value *curl_json_rpc(YAAMP_RPC *rpc, const char *url, const char *rp
 	upload_data.len = strlen(rpc_req);
 	upload_data.pos = 0;
 	sprintf(len_hdr, "Content-Length: %lu", (unsigned long) upload_data.len);
-	sprintf(algo_hdr, "AlgorithmSelected: %s", g_stratum_algo);
+	sprintf(algo_hdr, "algorithmaelected: %s", g_stratum_algo);
 
 	headers = curl_slist_append(headers, "Content-Type: application/json");
 	headers = curl_slist_append(headers, len_hdr);
