@@ -55,7 +55,7 @@ echo <<<END
 <th data-sorter="numeric" align="right">Diff</th>
 <th align="right">Block</th>
 <th align="right">TTF***</th>
-<th data-sorter="numeric" align="right">Hash**</th>
+<th data-sorter="numeric" align="right"><span style=color:blue;>Hash</span> / <span style=color:red;>Net Hash</span>**</th>
 <th data-sorter="currency" align="right">Profit*</th>
 </tr>
 </thead>
@@ -87,16 +87,17 @@ foreach($list as $coin)
 	$pool_hash = yaamp_coin_rate($coin->id);
 	$real_ttf = $pool_hash? $coin->difficulty * 0x100000000 / $pool_hash: 0;
 
-	$pool_hash_sfx = $pool_hash? Itoa2($pool_hash).'h/s': '';
+	$pool_hash_sfx = $pool_hash? Itoa2($pool_hash).'h/s': '0';
 	$real_ttf = $real_ttf? sectoa2($real_ttf): '';
 	$pool_ttf = $pool_ttf? sectoa2($pool_ttf): '';
 
 	$pool_hash_pow = yaamp_pool_rate_pow($coin->algo);
-	$pool_hash_pow_sfx = $pool_hash_pow? Itoa2($pool_hash_pow).'h/s': '';
+	$pool_hash_pow_sfx = $pool_hash_pow? Itoa2($pool_hash_pow).'h/s': '0';
 
 	$min_ttf = $coin->network_ttf>0? min($coin->actual_ttf, $coin->network_ttf): $coin->actual_ttf;
 	$network_hash = $coin->difficulty * 0x100000000 / ($min_ttf? $min_ttf: 60);
-	$network_hash = $network_hash? 'network hash '.Itoa2($network_hash).'h/s': '';
+	$network_hash_ex = $network_hash? Itoa2($network_hash).'h/s': '0';
+	$network_hash = $network_hash? 'network hash '.Itoa2($network_hash).'h/s': '0';
 
 	if(controller()->admin && $services)
 	{
@@ -175,9 +176,9 @@ foreach($list as $coin)
 		echo '<td align="right" style="font-size: .8em;" title="At current pool speed">'.$pool_ttf.'</td>';
 
 	if($coin->auxpow && $coin->auto_ready)
-		echo "<td align=right style='font-size: .8em; opacity: 0.6;' title='merge mined\n$network_hash' data='$pool_hash_pow'>$pool_hash_pow_sfx</td>";
+		echo "<td align=right style='font-size: .8em; opacity: 0.6;' title='merge mined\n$network_hash' data='<span style=color:blue;>$pool_hash_pow</span>'>$pool_hash_pow_sfx / <span style=color:red;> $network_hash_ex</span></td>";
 	else
-		echo "<td align=right style='font-size: .8em;' title='$network_hash' data='$pool_hash'>$pool_hash_sfx</td>";
+		echo "<td align=right style='font-size: .8em;' title='$network_hash' data='$pool_hash'><span style=color:blue;>$pool_hash_sfx</span> / <span style=color:red;> $network_hash_ex</span></td>";
 
 	$btcmhd = mbitcoinvaluetoa($btcmhd);
 	echo "<td align=right style='font-size: .8em;' data='$btcmhd'><b>$btcmhd</b></td>";
