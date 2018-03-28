@@ -92,12 +92,6 @@ if($user) echo <<<END
 </div>
 END;
 
-if($user) echo <<<END
-<div id='main_miners_results'>
-<br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br>
-</div>
-END;
 
 echo <<<END
 <div class="main-left-box">
@@ -149,6 +143,13 @@ echo "</td><td valign=top>";
 
 echo <<<END
 <div id='pool_current_results'>
+<br><br><br><br><br><br><br><br><br><br>
+</div>
+END;
+
+if($user) echo <<<END
+<div id='main_miners_results'>
+<br><br><br><br><br><br><br><br><br><br>
 <br><br><br><br><br><br><br><br><br><br>
 </div>
 END;
