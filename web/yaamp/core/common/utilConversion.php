@@ -252,7 +252,9 @@ function Itoa($i)
 function Itoa2($i, $precision=1)
 {
 	$s = '';
-	if($i >= 1000*1000*1000*1000*1000)
+	if($i >= 1000*1000*1000*1000*1000*1000)
+		$s = round(floatval($i)/1000/1000/1000/1000/1000/1000, $precision) ." E";
+	else if($i >= 1000*1000*1000*1000*1000)
 		$s = round(floatval($i)/1000/1000/1000/1000/1000, $precision) ." P";
 	else if($i >= 1000*1000*1000*1000)
 		$s = round(floatval($i)/1000/1000/1000/1000, $precision) ." T";
