@@ -80,6 +80,7 @@ if(count($workers))
 	echo "<thead>";
 	echo "<tr>";
 	echo "<th align=left>Details</th>";
+	echo "<th align=left>Worker</th>";
 	if ($this->admin) echo "<th>IP</th>";
 	echo "<th align=left>Extra</th>";
 	echo "<th align=left>Algo</th>";
@@ -102,13 +103,19 @@ if(count($workers))
 
 		$user_rate1 = $user_rate1? Itoa2($user_rate1).'h/s': '';
 
+	    
+		$workerid = substr($worker->worker, 0, 20);
 		$version = substr($worker->version, 0, 20);
 		$password = substr($worker->password, 0, 32);
 
 		$subscribe = Booltoa($worker->subscribe);
 
 		echo '<tr class="ssrow">';
+
 		echo '<td title="'.$worker->version.'">'.$version.'</td>';
+		echo '<td title="'.$worker->worker.'">'.$workerid.'</td>';
+		
+
 		if ($this->admin) echo "<td>{$worker->ip}</td>";
 		echo '<td title="'.$worker->password.'">'.$password.'</td>';
 		echo '<td>'.$worker->algo.'</td>';
