@@ -64,6 +64,11 @@ function BackendCoinPayments($coin)
 			$amount = $user->balance;
 			while($user->balance > $min_payout && $amount > $min_payout)
 			{
+				$validateaddr = $remote->validateaddress($user->username);
+				if(arraySafeVal($validateaddr,'ismine')) {
+				    // Do not pay to ourselves
+				    continue;
+				}
 				debuglog("$coin->symbol sendtoaddress $user->username $amount");
 				$tx = $remote->sendtoaddress($user->username, round($amount, 8));
 				if(!$tx)
