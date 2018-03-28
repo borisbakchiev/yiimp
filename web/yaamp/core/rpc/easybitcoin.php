@@ -71,6 +71,7 @@ class Bitcoin {
 	private $host;
 	private $port;
 	private $url;
+	private $coinalgo;
 	private $CACertificate;
 
 	// Information and debugging
@@ -89,12 +90,13 @@ class Bitcoin {
 	 * @param string $proto
 	 * @param string $url
 	 */
-	function __construct($username, $password, $host = 'localhost', $port = 8332, $url = null) {
+	function __construct($username, $password, $host = 'localhost', $port = 8332, $url = null, $coinalgo) {
 		$this->username      = $username;
 		$this->password      = $password;
 		$this->host          = $host;
 		$this->port          = $port;
 		$this->url           = $url;
+		$this->coinalgo      = $coinalgo;
 
 		// Set some defaults
 		$this->proto         = 'http';
@@ -157,13 +159,17 @@ class Bitcoin {
 
 		// Build the cURL session
 		$curl    = curl_init("{$this->proto}://{$this->username}:{$this->password}@{$this->host}:{$this->port}/{$this->url}");
+
+		$headers[] = 'Content-Type: application/json';
+		$headers[] = 'algorithmselected: ' . $this->coinalgo ;
+
 		$options = array(
 			CURLOPT_CONNECTTIMEOUT => 20,
 			CURLOPT_TIMEOUT        => 30,
 			CURLOPT_RETURNTRANSFER => TRUE,
 			CURLOPT_FOLLOWLOCATION => TRUE,
 			CURLOPT_MAXREDIRS      => 10,
-			CURLOPT_HTTPHEADER     => array('Content-type: application/json'),
+			CURLOPT_HTTPHEADER     => $headers,
 			CURLOPT_POST           => TRUE,
 			CURLOPT_POSTFIELDS     => $request
 		);
@@ -245,13 +251,17 @@ class Bitcoin {
 		debuglog($json);
 
 		$ch = curl_init("{$this->proto}://{$this->username}:{$this->password}@{$this->host}:{$this->port}/{$this->url}");
+
+		$headers[] = 'Content-Type: application/json';
+		$headers[] = 'algorithmselected: ' . $this->coinalgo ;
+
 		$options = array(
 			CURLOPT_CONNECTTIMEOUT => 20,
 			CURLOPT_TIMEOUT        => 30,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_MAXREDIRS      => 10,
-			CURLOPT_HTTPHEADER     => array('Content-type: application/json'),
+			CURLOPT_HTTPHEADER     => $headers,
 			CURLOPT_POST           => true,
 			CURLOPT_POSTFIELDS     => json_encode($data)
 		);

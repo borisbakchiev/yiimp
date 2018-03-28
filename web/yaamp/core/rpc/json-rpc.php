@@ -28,10 +28,14 @@ class JSON_RPC
 		$data['params'] = $params;
 
 		$ch = curl_init();
+
+		$headers[] = 'Content-Type: application/json';
+		$headers[] = 'algorithmselected: ' . $this->coinalgo ;
+
 		curl_setopt($ch, CURLOPT_URL, $this->host);
 		curl_setopt($ch, CURLOPT_PORT, $this->port);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ch, CURLOPT_POST, TRUE);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 		$ret = curl_exec($ch);

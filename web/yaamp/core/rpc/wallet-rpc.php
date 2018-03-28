@@ -41,13 +41,13 @@ class WalletRPC {
 				break;
 			default:
 				$this->type = 'Bitcoin';
-				$this->rpc = new Bitcoin($coin->rpcuser, $coin->rpcpasswd, $coin->rpchost, $coin->rpcport, $url);
+				$this->rpc = new Bitcoin($coin->rpcuser, $coin->rpcpasswd, $coin->rpchost, $coin->rpcport, $url, $coin->algo);
 			}
 
 		} else {
 			// backward compat
 			$user = $userOrCoin;
-			$this->rpc = new Bitcoin($user, $pw, $host, $port, $url);
+			$this->rpc = new Bitcoin($user, $pw, $host, $port, $url, $coin->algo);
 		}
 	}
 
